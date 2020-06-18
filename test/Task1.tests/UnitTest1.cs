@@ -27,6 +27,36 @@ namespace Task1.Tests
      
         }
          [Fact]
+        public void EmptyStringProperty(){ 
+             //arange
+            var version = 2; 
+            string domainName="" ; 
+            string[] ipAddress = new string[]{"192.168.1.8","192.168.1.2"}; 
+            var config = new Configuration(version, domainName, ipAddress);
+            //act            
+          var actual =Program.ParseToJson(config);
+          var expected = @"""{""Version"":2,""DomainName"":"""",""IpAddresses"":[""192.168.1.8"",""192.168.1.2""]}""";
+         
+            //assert
+            Assert.Equal(expected,actual );
+           
+        }
+          [Fact]
+        public void EmptyArrayProperty_GivesEmptyArrayInJson(){ 
+             //arange
+            var version = 2; 
+            string domainName="" ; 
+            string[] ipAddress = new string[]{}; 
+            var config = new Configuration(version, domainName, ipAddress);
+            //act            
+          var actual =Program.ParseToJson(config);
+          var expected = @"""{""Version"":2,""DomainName"":"""",""IpAddresses"":[]}""";
+         
+            //assert
+            Assert.Equal(expected,actual );
+           
+        }
+         [Fact]
         public void TestObjectWithDifferentProperties()
         {
             //arange
@@ -88,5 +118,6 @@ namespace Task1.Tests
             //assert
             Assert.NotEqual(expected,actual );
         }
+       
     }
 }
