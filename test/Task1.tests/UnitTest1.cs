@@ -3,6 +3,7 @@ using System;
 using System.Reflection;
 using System.Net.Http.Headers;
 using Xunit;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace Task1.Tests
 {
@@ -22,26 +23,42 @@ namespace Task1.Tests
          
             //assert
             Assert.Equal(expected,actual );
-
+           
      
         }
          [Fact]
         public void TestObjectWithDifferentProperties()
         {
             //arange
-            var version = 2.1; 
-            var domainName = "www.training.com"; 
-            var config = new Config(version, domainName);
+            int version = 2; 
+            string domainName = "www.training.com"; 
+            var config = new Config<int, String>(version, domainName);
             //act            
           var actual =Program.ParseToJson(config);
-          var expected = @"""{""Version"":2.1,""DomainName"":""www.training.com""}""";
+          var expected = @"""{""Version"":2,""DomainName"":""www.training.com""}""";
          
             //assert
             Assert.Equal(expected,actual );
 
      
         }
-           
+         [Fact]
+        public void TestObjectWithADoubleProperty_WhichWillBeExcludedFromTheJson()
+        {
+            //arange
+            double version = 2.1; 
+            string domainName = "www.training.com"; 
+            var config = new Config<double, String>(version, domainName);
+            //act            
+          var actual =Program.ParseToJson(config);
+          var expected = @"""{""DomainName"":""www.training.com""}""";
+         
+            //assert
+            Assert.Equal(expected,actual );
+
+     
+        }  
+   
       [Fact]
         public void TestObjectWithNoProperties_GivingEmptyResult()
         {
@@ -56,6 +73,20 @@ namespace Task1.Tests
             Assert.Equal(expected,actual );
 
      
+        }
+        [Fact]
+        public void NotEqualResult(){ 
+             //arange
+            var version = 2; 
+            var domainName = "www.training.com"; 
+            string[] ipAddress = new string[]{"192.168.1.8","192.168.1.2"}; 
+            var config = new Configuration(version, domainName, ipAddress);
+            //act            
+          var actual =Program.ParseToJson(config);
+          var expected = @"""{""Version"":'2',""DomainName"":""www.training.com"",""IpAddresses"":[""192.168.1.8"",""192.168.1.2""]}""";
+         
+            //assert
+            Assert.NotEqual(expected,actual );
         }
     }
 }

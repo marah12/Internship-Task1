@@ -1,19 +1,17 @@
 ﻿using System;
 
-public class Config
+public class Config<T,V>
 {
-    public Config()
-    {
-    }
-    public Config(double version, string domainName)
+    
+    public Config(T version, V domainName)
     {
         Version = version;
         DomainName = domainName;
     }
 
 
-    public double Version { get; }
-    public string DomainName { get; }
+    public T Version { get; }
+    public V DomainName { get; }
 
 
 

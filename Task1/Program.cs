@@ -5,28 +5,15 @@ using System;
 using System.Reflection;
 namespace Task1
 {
-    public static class Program
+    public  class Program
     {
         static void Main(string[] args)
         {
         
         }
-        public static bool IsNumber(this object value)
-        {
-            return value is sbyte
-                    || value is byte
-                    || value is short
-                    || value is ushort
-                    || value is int
-                    || value is uint
-                    || value is long
-                    || value is ulong
-                    || value is float
-                    || value is double
-                    || value is decimal;
-        }
+      
         
-        public static String ParseToJson(Object obj)
+        public static String ParseToJson(object obj)
         {
             string result = @"""{";
 
@@ -39,8 +26,11 @@ namespace Task1
 
 
                 {
+                  if(!(prop.GetValue(obj) is int) && !(prop.GetValue(obj) is String) && !(prop.PropertyType.IsArray)){
+                        continue; 
+                    }
                     result += @"""" + prop.Name + @""":";
-                    if (IsNumber(prop.GetValue(obj)))
+                    if (prop.GetValue(obj) is int)
                     {
 
                         result += prop.GetValue(obj) + ",";
